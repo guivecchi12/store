@@ -1,0 +1,24 @@
+{
+  "name": "store",
+  "version": "1.0.0",
+  "description": "Ecommerce store",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/guivecchi12/store.git"
+  },
+  "author": "Gui Vecchi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/guivecchi12/store/issues"
+  },
+  "homepage": "https://github.com/guivecchi12/store#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node": "^17.2.0"
+  }
+}
