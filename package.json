@@ -2,11 +2,11 @@
   "name": "store",
   "version": "1.0.0",
   "description": "Ecommerce store",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "test",
     "start": "node server.js",
-    "server": "nodemon index.js"
+    "server": "nodemon server.js"
   },
   "repository": {
     "type": "git",
@@ -20,7 +20,9 @@
   "homepage": "https://github.com/guivecchi12/store#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "knex": "^0.95.14",
     "node": "^17.2.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "sqlite3": "^5.0.2"
   }
 }
