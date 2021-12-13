@@ -19,6 +19,7 @@
   "homepage": "https://github.com/guivecchi12/store#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "node": "^17.2.0"
+    "node": "^17.2.0",
+    "nodemon": "^2.0.15"
   }
 }
