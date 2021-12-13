@@ -19,6 +19,5 @@ app.get('/*', (req, res) => {
 })
 
 app.listen(port, () =>{
-    if (err) return console.log(err)
     console.log(`\n *** Server started on port ${port} ***\n`)
 })
