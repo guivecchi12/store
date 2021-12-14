@@ -1,10 +1,11 @@
 const express = require('express')
-
+const cors = require('cors')
 const inventory = require('./API/inventory/inventory-router')
 
 const app = express()
 const path = require('path')
 
+app.use(cors())
 app.use(express.static(path.join(__dirname, 'build')))
 
 
