@@ -19,19 +19,19 @@ function findID(id){
 function findProdByTitle(title){
     return db(table)
         .whereRaw('LOWER(title) LIKE ?', [`%${title}%`])
-        // .first()
         .select('*');
 }
 
 // Check for existing name
 function findTitle(title){
     return db(table)
-        .where('title', title)
+        .where({title: title})
         .first();
 }
 
 // Add new Product
 function addProduct(prod){
+    console.log("PROD: ", prod)
     return db(table)
         .insert(prod)
         .returning('*');
@@ -40,7 +40,7 @@ function addProduct(prod){
 // Update Inventory
 function updateProduct(prod, changes){
     return db(table)
-        .where('id', prod)
+        .where({id: prod})
         .first()
         .update(changes)
         .returning('*');
@@ -49,7 +49,7 @@ function updateProduct(prod, changes){
 // Delete Product
 function deleteProduct(prod){
     return db(table)
-        .where('id', prod)
+        .where({id: prod})
         .del()
         .returning('*')
 }

@@ -1,12 +1,17 @@
 const express = require('express')
 const cors = require('cors')
+const helmet = require('helmet')
+const cookieParser = require('cookie-parser')
 const inventory = require('./API/inventory/inventory-router')
-const login = require('./API/login/login-router')
+const user = require('./API/user/user-router')
 
 const app = express()
 const path = require('path')
 
 app.use(cors())
+app.use(helmet())
+app.use(cookieParser())
+app.use(express.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, 'build')))
 
 
@@ -18,7 +23,14 @@ app.get('/api', (req, res) => {
 })
 
 app.use('/api/inventory', inventory)
-app.use('/api/login', login)
+app.use('/api/user', user)
+
+app.use((err, req, res, next) => {
+    console.log(err)
+    res.status(500).json({
+        message: "Something went wrong"
+    })
+})
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))

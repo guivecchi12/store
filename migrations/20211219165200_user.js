@@ -7,6 +7,7 @@ exports.up = function(knex) {
 
         tbl.string('username')
             .notNullable()
+            .unique()
         
         tbl.string('password')
             .notNullable()
@@ -16,6 +17,6 @@ exports.up = function(knex) {
   };
   
   exports.down = function(knex) {
-      return knex.schema.dropTableIfExists('inventory')
+      return knex.schema.dropTableIfExists('user')
   };
   
