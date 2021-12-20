@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const inventory = require('./API/inventory/inventory-router')
+const login = require('./API/login/login-router')
 
 const app = express()
 const path = require('path')
@@ -16,7 +17,8 @@ app.get('/api', (req, res) => {
     })
 })
 
-app.use('/api/inventory', inventory);
+app.use('/api/inventory', inventory)
+app.use('/api/login', login)
 
 app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'))
