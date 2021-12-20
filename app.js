@@ -1,10 +1,10 @@
 const express = require('express')
 const cors = require('cors')
-// const helmet = require('helmet')
-// const cookieParser = require('cookie-parser')
+const helmet = require('helmet')
+const cookieParser = require('cookie-parser')
 
 const inventory = require('./API/inventory/inventory-router')
-// const user = require('./API/user/user-router')
+const user = require('./API/user/user-router')
 
 const app = express()
 const path = require('path')
@@ -24,7 +24,7 @@ app.get('/api', (req, res) => {
 })
 
 app.use('/api/inventory', inventory)
-// app.use('/api/user', user)
+app.use('/api/user', user)
 
 app.use((err, req, res, next) => {
     console.log(err)
