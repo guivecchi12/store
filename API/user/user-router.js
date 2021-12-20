@@ -1,4 +1,6 @@
 const express = require('express')
+const bcrypt = require('bcryptjs')
+const jwt = require("jsonwebtoken")
 const router = express.Router()
 const userModel = require('./user-model')
 
@@ -11,10 +13,9 @@ router.get("/", async (req, res, next) => {
 })
 
 router.post("/register", async (req, res, next) => {
-	console.log("NEW USER: ", req.body)
 	try {
-		const { name, username, password } = req.body
-		const user = await userModel.findByUserName( username ).first()
+		const body = req.body
+		const user = await userModel.findByUserName( body.username ).first()
 
 		if (user) {
 			return res.status(409).json({
@@ -23,10 +24,11 @@ router.post("/register", async (req, res, next) => {
 		}
 
 		const newUser = await userModel.add({
-            name,
-			username,
-            password: await bcrypt.hash(password, 14)
+			name: body.name, 
+			username: body.username, 
+			password: await bcrypt.hash(body.password, 14)
 		})
+
 		res.status(201).json(newUser)
 
 	} catch(err) {
@@ -36,15 +38,15 @@ router.post("/register", async (req, res, next) => {
 
 router.post("/login", async (req, res, next) => {
 	try {
-		const { username, password } = req.body
-        const user = await userModel.findByUserName( username ).first()
-		
+		const body = req.body
+        const password = await userModel.logIn( body.username ).first()
+		const user = await userModel.findByUserName( body.username )
+
 		if (user) {
-            // hash the password again and see if it matches what we have in the database
-            const passwordValid = await bcrypt.compare(password, user.password)
+            const passwordValid = await bcrypt.compare(body.password, password.password)
             
             if (passwordValid){
-                const user = await userModel.findByUserName( username ).first()
+                const user = await userModel.findByUserName( body.username ).first()
 
                 // generate a new JSON web token
                 const token = jwt.sign({
@@ -78,18 +80,24 @@ router.post("/login", async (req, res, next) => {
 	}
 })
 
-router.get("/logout", async (req, res, next) => {
+router.delete("/logout", async (req, res, next) => {
 	try {
 		// this will delete the session in the database and try to expire the cookie,
 		// though it's ultimately up to the client if they delete the cookie or not.
 		// but it becomes useless to them once the session is deleted server-side.
-		req.session.destroy((err) => {
-			if (err) {
-				next(err)
-			} else {
-				res.status(204).end()
-			}
-		})
+		if(req.session){
+			req.session.destroy(err => {
+				if (err) {
+				  res.status(400).send('Unable to log out')
+				} else {
+				  res.send('Logout successful')
+				  res.redirect('/')
+				}
+			  });
+		}
+		else{
+			res.status(400).json({error: "No Session"})
+		}
 	} catch (err) {
 		next(err)
 	}

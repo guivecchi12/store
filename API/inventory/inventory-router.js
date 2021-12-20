@@ -37,7 +37,7 @@ router.post('/', async (req, res, next) => {
     try{
         const newProd = req.body;
         if(!newProd.title || newProd.title.trim() === '' || !newProd.price || !newProd.image || newProd.image.trim() === ''){
-            return res.status(400).json({error: "Book title is required"})
+            return res.status(400).json({error: "More information on the book is required"})
         }
 
         const prodExists = await invModel.findTitle(newProd.title)
