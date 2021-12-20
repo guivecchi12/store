@@ -2,8 +2,9 @@ const db = require('../../data/configs')
 const table = 'user';
 
 async function add(user) {
-	const [id] = await db(table).insert(user)
-	return findById(id)
+	return db(table)
+        .insert(user)
+        .returning('*');
 }
 
 function findAll() {
