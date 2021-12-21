@@ -12,9 +12,9 @@ const path = require('path')
 app.use(cors())
 app.use(helmet())
 app.use(cookieParser())
-app.use(express.json())
-app.use(express.static(path.join(__dirname, 'build')))
 
+app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.json())
 
 // API's
 app.get('/api', (req, res) => {

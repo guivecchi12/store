@@ -41,8 +41,7 @@ router.post('/', async (req, res, next) => {
         }
 
         const prodExists = await invModel.findTitle(newProd.title)
-        if(prodExists){
-            // return errorMessage(res, 400, 'This product already exists would you like to add stock instead?')    
+        if(prodExists){   
             return res.status(200).json({message: 'already exists', product: prodExists})
         }
 

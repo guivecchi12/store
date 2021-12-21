@@ -31,7 +31,6 @@ function findTitle(title){
 
 // Add new Product
 function addProduct(prod){
-    console.log("PROD: ", prod)
     return db(table)
         .insert(prod)
         .returning('*');
