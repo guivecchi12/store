@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken")
-const { findBy } = require("../users/users-model")
 
-function restrict(role) {
+function restrict() {
 	return async (req, res, next) => {
 		const authError = {
-			message: "You shall not pass!",
+			message: "You need to login to view Orders!",
 		}
 
 		try {
@@ -20,8 +19,6 @@ function restrict(role) {
 					return res.status(401).json(authError)
 				}
 
-				// we know the user is authorized at this point,
-				// make the token's payload available to other middleware functions
 				req.token = decoded
 
 				next()
