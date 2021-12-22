@@ -15,7 +15,8 @@ router.get("/", async (req, res, next) => {
 router.post("/register", async (req, res, next) => {
 	try {
 		const body = req.body
-		const user = await userModel.findByUserName( body.username ).first()
+		const username = body.username.toLowerCase()
+		const user = await userModel.findByUserName( username ).first()
 
 		if (user) {
 			return res.status(409).json({
@@ -25,7 +26,7 @@ router.post("/register", async (req, res, next) => {
 
 		const newUser = await userModel.add({
 			name: body.name, 
-			username: body.username, 
+			username: username, 
 			password: await bcrypt.hash(body.password, 14)
 		})
 
@@ -39,6 +40,7 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
 	try {
 		const body = req.body
+		body.username = body.username.toLowerCase()
         const password = await userModel.logIn( body.username ).first()
 		const user = await userModel.findByUserName( body.username )
 
@@ -82,9 +84,7 @@ router.post("/login", async (req, res, next) => {
 
 router.delete("/logout", async (req, res, next) => {
 	try {
-		// this will delete the session in the database and try to expire the cookie,
-		// though it's ultimately up to the client if they delete the cookie or not.
-		// but it becomes useless to them once the session is deleted server-side.
+		res.clearCookie("token")
 		if(req.session){
 			req.session.destroy(err => {
 				if (err) {

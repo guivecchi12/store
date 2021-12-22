@@ -5,6 +5,8 @@ const cookieParser = require('cookie-parser')
 
 const inventory = require('./API/inventory/inventory-router')
 const user = require('./API/user/user-router')
+const order = require('./API/order/order-router')
+const ordered_item = require('./API/ordered_items/ordered_items-router')
 
 const app = express()
 const path = require('path')
@@ -28,11 +30,13 @@ app.get('/api', (req, res) => {
 
 app.use('/api/inventory', inventory)
 app.use('/api/user', user)
+app.use('/api/order', order)
+app.use('/api/ordered_item', ordered_item)
 
 app.use((err, req, res, next) => {
-    console.log(err)
     res.status(500).json({
-        message: "Something went wrong"
+        message: "Something went wrong",
+        error: err
     })
 })
 

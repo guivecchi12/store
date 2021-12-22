@@ -6,7 +6,6 @@ const invModel = require('./inventory-model')
 router.get('/', async(req, res, next) => {
     try{
         const inventory = await invModel.listInv()
-        console.log(inventory)
         return res.status(200).json(inventory)
     }
     catch(err){
@@ -33,7 +32,6 @@ router.get('/:search', async(req, res, next) => {
 
 // Add new Product
 router.post('/', async (req, res, next) => {
-    console.log("New product: ", req.body)
     try{
         const newProd = req.body;
         if(!newProd.title || newProd.title.trim() === '' || !newProd.price || !newProd.image || newProd.image.trim() === ''){
@@ -62,7 +60,7 @@ router.put('/:id', async(req, res, next) => {
         const body = req.body
         const exist = await invModel.findID(id)
 
-        if(!exist){
+        if(!exist || exist.length === 0){
             return res.status(401).json({error: "Book not found"})
         }
         else if(!body){
@@ -85,16 +83,12 @@ router.delete('/:id', async(req, res, next) => {
         const id = req.params.id
         const removed = await invModel.findID(id)
 
-        console.log(removed);
-
-        if(!removed){
+        if(!removed || removed.length === 0){
             return res.status(401).json({error: "Book not found"})
         }
 
         else{
-            console.log(id)
             const r = await invModel.deleteProduct(id)
-            console.log(r)
             return res.status(200).json({
                 message: 'Book successfully removed',
                 product: removed
