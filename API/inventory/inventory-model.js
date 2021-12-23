@@ -4,6 +4,7 @@ const table = 'inventory';
 // List all inventory
 function listInv(){
     return db(table)
+        .orderBy('title')
         .select('*');
 }
 
