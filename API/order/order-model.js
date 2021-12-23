@@ -18,8 +18,9 @@ function findOrder(id){
 // Find Order by UserID
 function findUserOrders(id){
     return db(table)
-        .where('userID', id)
-        .select('*')
+        .where(`userID`, id)
+        .join('ordered_item as item', `${table}.id`, 'item.order')
+        .select(`${table}.id as order_num`,`${table}.created_at as order_date`, `${table}.total_cost`, `${table}.paid`, 'item.inventory_sku as SKU', 'item.quantity_ordered as quantity')
 }
 
 // List paid Orders

@@ -1,8 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const itemsModel = require('./ordered_items-model');
+const restrict = require('../middleware/restrict')
 
-router.get('/', async(req, res, next) => {
+router.get('/', restrict(), async(req, res, next) => {
     try{
         const orders = await itemsModel.listOrderedItems()
         return res.status(200).json(orders)
@@ -13,9 +14,10 @@ router.get('/', async(req, res, next) => {
 })
 
 // Get the products within an order
-router.get('/order/:order', async(req, res, next) => {
+router.get('/user', restrict(), async(req, res, next) => {
     try{
-        const order = await itemsModel.listOrderItems(req.params.order)
+        const user = req.token.userID
+        const order = await itemsModel.listOrderItems(user)
         return res.status(200).json(order)
     }
     catch(err){
@@ -24,7 +26,7 @@ router.get('/order/:order', async(req, res, next) => {
 })
 
 // Add new Product
-router.post('/', async(req, res, next) => {
+router.post('/', restrict(), async(req, res, next) => {
     try{
 
         const newOrder = req.body;
@@ -49,7 +51,7 @@ router.post('/', async(req, res, next) => {
 })
 
 // Update item
-router.put('/:id', async(req, res, next) => {
+router.put('/:id', restrict(), async(req, res, next) => {
     try{
         const changeItem = req.body;
         const itemId = req.params.id;
@@ -70,7 +72,7 @@ router.put('/:id', async(req, res, next) => {
 })
 
 // Remove item
-router.delete('/:id', async(req, res, next) => {
+router.delete('/:id', restrict(), async(req, res, next) => {
     try{
         const itemId = req.params.id;
         const item = await itemsModel.findItem(itemId)

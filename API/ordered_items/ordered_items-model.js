@@ -15,10 +15,13 @@ function findItem(id){
 }
 
 // Items in order
-function listOrderItems(order){
+function listOrderItems(id){
     return db(table)
-        .where('order', order)
-        .select('*')
+        .join('order as o', `${table}.order`, 'o.id')
+        .where('o.userID', id)
+        .join('inventory as i', `${table}.inventory_sku`, `i.id`)
+        .orderBy('o.id')
+        .select('o.id as order_number', 'o.created_at as order_date', 'o.total_cost', 'o.paid', 'i.title', `${table}.quantity_ordered as quantity`, 'i.price as unit_price')
 }
 
 // Add new Item

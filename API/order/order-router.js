@@ -5,7 +5,7 @@ const orderModel = require('./order-model.js');
 const restrict = require('../middleware/restrict')
 
 //Find all Orders
-router.get('/', async(req, res, next) => {
+router.get('/', restrict(), async(req, res, next) => {
     try{
         const orders = await orderModel.listOrders()
         return res.status(200).json(orders)
@@ -16,7 +16,7 @@ router.get('/', async(req, res, next) => {
 })
 
 // Find by order ID
-router.get('/find/:id', async(req, res, next) => {
+router.get('/find/:id', restrict(), async(req, res, next) => {
     try{
         const order = await orderModel.findOrder(req.params.id)
 
@@ -32,9 +32,10 @@ router.get('/find/:id', async(req, res, next) => {
 })
 
 // Find Order made by User
-router.get('/user', restrict(), async(req, res, next) => {
+router.get('/user', restrict(),  async(req, res, next) => {
     try{
         const user = req.token.userID
+
         const orders = await orderModel.findUserOrders(user)
 
         if(!orders){
@@ -50,7 +51,7 @@ router.get('/user', restrict(), async(req, res, next) => {
 })
 
 // Find Orders Paid for
-router.get('/paid', async(req, res, next) => {
+router.get('/paid', restrict(), async(req, res, next) => {
     try{
         const paidOrders = await orderModel.listPaid()
         return res.status(200).json(paidOrders)
@@ -61,7 +62,7 @@ router.get('/paid', async(req, res, next) => {
 })
 
 // Find Orders not Paid for
-router.get('/notPaid', async(req, res, next) => {
+router.get('/notPaid', restrict(), async(req, res, next) => {
     try{
         const unpaidOrders = await orderModel.listNotPaid()
         return res.status(200).json(unpaidOrders)
@@ -73,7 +74,7 @@ router.get('/notPaid', async(req, res, next) => {
 })
 
 // Add new Order
-router.post('/', async(req, res, next) => {
+router.post('/', restrict(), async(req, res, next) => {
     try{
 
         const newOrder = req.body;
@@ -89,7 +90,7 @@ router.post('/', async(req, res, next) => {
 })
 
 // Update Order
-router.put('/:id', async(req, res, next) => {
+router.put('/:id', restrict(), async(req, res, next) => {
     try{
         const changeOrder = req.body;
         const orderId = req.params.id;
@@ -109,7 +110,7 @@ router.put('/:id', async(req, res, next) => {
 })
 
 // Delete Order
-router.delete('/:id', async(req, res, next) => {
+router.delete('/:id', restrict(), async(req, res, next) => {
     try{
         const orderId = req.params.id;
         const order = await orderModel.findOrder(orderId)

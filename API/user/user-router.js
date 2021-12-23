@@ -85,13 +85,14 @@ router.post("/login", async (req, res, next) => {
 router.delete("/logout", async (req, res, next) => {
 	try {
 		res.clearCookie("token")
+		res.cookie('token','')
 		if(req.session){
 			req.session.destroy(err => {
 				if (err) {
 				  res.status(400).send('Unable to log out')
 				} else {
 				  res.send('Logout successful')
-				  res.redirect('/')
+				//   res.redirect('/')
 				}
 			  });
 		}
