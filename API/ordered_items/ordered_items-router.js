@@ -75,7 +75,6 @@ router.delete('/:id', restrict(), async(req, res, next) => {
     try{
         const itemId = req.params.id;
         const item = await itemsModel.findItem(itemId)
-        console.log(item)
 
         if(!item || item.length === 0){
             return res.status(401).json({message: 'Order not found'})
