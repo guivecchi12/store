@@ -79,9 +79,8 @@ router.post('/', async(req, res, next) => {
 
         const newOrder = req.body;
 
-        await orderModel.addOrder(newOrder)
-        const response = await orderModel.listOrders()
-        
+        const response = await orderModel.addOrder(newOrder)
+        // await orderModel.listOrders()
         return res.status(201).json(response)
     }
     catch(err){

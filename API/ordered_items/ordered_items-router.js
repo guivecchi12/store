@@ -40,8 +40,7 @@ router.post('/', async(req, res, next) => {
             return res.status(400).json({message: "Quantity needed"})
         }
 
-        await itemsModel.addOrderItem(newOrder)
-        const response = await itemsModel.listOrderedItems()
+        const response = await itemsModel.addOrderItem(newOrder)
         
         return res.status(201).json(response)
     }
