@@ -26,7 +26,7 @@ router.get('/user', restrict(), async(req, res, next) => {
 })
 
 // Add new Product
-router.post('/', restrict(), async(req, res, next) => {
+router.post('/', async(req, res, next) => {
     try{
 
         const newOrder = req.body;
