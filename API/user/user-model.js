@@ -8,7 +8,7 @@ async function add(user) {
 }
 
 function findAll() {
-	return db(table).select("id", "name", "username")
+	return db(table).select("id", "name", "username", "type")
 }
 
 function findByUserName(username) {
