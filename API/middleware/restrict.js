@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken")
+const { nextTick } = require("process")
 
 function restrict() {
 	return async (req, res, next) => {

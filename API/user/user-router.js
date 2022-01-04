@@ -57,6 +57,7 @@ router.post("/login", async (req, res, next) => {
 					name: user.name
                 }, "Super safe")
 
+
                 // send the token back as a cookie
                 res.cookie("token", token)
                 
