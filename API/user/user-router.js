@@ -24,12 +24,14 @@ router.post("/register", async (req, res, next) => {
 			})
 		}
 
-		const newUser = await userModel.add({
+		await userModel.add({
 			name: body.name, 
 			username: username, 
 			password: await bcrypt.hash(body.password, 14),
 			type: body.type || 'user'
 		})
+
+		const newUser = await userModel.findByUserName( username )
 
 		res.status(201).json(newUser)
 

@@ -14,6 +14,7 @@ exports.up = function(knex) {
     
         tbl.string('type')
             .notNullable()
+            .defaultTo('user')
     })
   };
   
